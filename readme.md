@@ -1,4 +1,4 @@
-# ForceGet Automation Hub
+# Case Study
 
 Bu proje, **Java, Selenium ve Cucumber BDD** kullanılarak geliştirilmiş bir test otomasyon framework'üdür. **Runner sınıfı** çalıştırıldığında test senaryoları çalıştırılır ve **Extent Reports** ile detaylı test raporları üretilir.
 
@@ -19,7 +19,7 @@ Projeyi kullanmaya başlamak için aşağıdaki adımları takip edebilirsiniz:
 ### 1️⃣ Depoyu Klonlayın
 ```sh
   git clone <repo-link>
-  cd forceGetAutomationHub
+  cd caseStudy
 ```
 
 ### 2️⃣ Maven Bağımlılıklarını Yükleyin
@@ -43,7 +43,7 @@ Testleri çalıştırmak için `Runner` sınıfını kullanabilirsiniz:
 ## 📝 Yapı
 Proje temel olarak şu klasör yapısına sahiptir:
 ```
-forceGetAutomationHub/
+caseStudy/
 │── src/
 │   ├── main/
 │   │   ├── java/
