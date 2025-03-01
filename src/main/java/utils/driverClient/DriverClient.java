@@ -136,6 +136,11 @@ public class DriverClient extends PropertyManager {
         wait.until(ExpectedConditions.visibilityOf(e));
     }
 
+    public static void waitForClickability(WebElement e) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(e));
+    }
+
 
     public static void clear(WebElement e) {
         waitForVisibility(e);

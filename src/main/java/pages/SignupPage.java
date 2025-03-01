@@ -2,14 +2,12 @@ package pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
 import utils.driverClient.DriverClient;
-import utils.util.ConfigReader;
+import utils.util.JSUtils;
 import utils.util.ReusableMethods;
-
+import java.util.List;
 import static base.BasePage.*;
-import static utils.driverClient.DriverClient.clear;
-import static utils.driverClient.DriverClient.click;
+
 
 public class SignupPage {
     WebDriver driver;
@@ -29,7 +27,7 @@ public class SignupPage {
     private final By passwordConfirmBox = By.xpath("//*[@formcontrolname='passwordConfirm']");
     private final By checkbox = By.xpath("//span[@class='checkbox-box']");
     private final By countryDropdown = By.xpath("//forceget-country-dropdown//nz-select");
-    private final  By countrySearchInput = By.xpath("//nz-select-search//input");
+    private final By countrySearchInput = By.xpath("//nz-select-search//input");
     private final By titleDropdown = By.xpath("//nz-select[@formcontrolname='jobTitle']");
     private final By titleSearchInput = By.xpath("//nz-select-search//input");
     private final By termsAndConditionsCheckbox = By.className("checkbox-box");
@@ -81,10 +79,27 @@ public class SignupPage {
         enterText(passwordConfirmBox, "Test12++");
         clickElement(termsAndConditionsCheckbox);
         WebElement acceptButtonWebElement = driver.findElement(By.xpath("//button[.=' Accept ']"));
-        ReusableMethods.scrollIntoPage(acceptButtonWebElement);
+        System.out.println("acceptButtonWebElement = " + acceptButtonWebElement.getText());
+        JSUtils.scrollIntoView(acceptButtonWebElement);
+        DriverClient.wait(1);
         DriverClient.waitForVisibility(acceptButtonWebElement);
-        clickElement(acceptButton);
-    //    clickElement(agreeAndSignUpButton);
+        DriverClient.waitForClickability(acceptButtonWebElement);
+        JSUtils.clickElementByJS(acceptButtonWebElement);
+        DriverClient.waitAndClick(acceptButtonWebElement);
+
+     //   WebElement agreeAndSignUpButtonWebElement = driver.findElement(By.xpath("//button[.=' Agree & Sign-Up ']"));
+     //   DriverClient.waitForClickability(agreeAndSignUpButtonWebElement);
+     //   JSUtils.clickElementByJS(agreeAndSignUpButtonWebElement);
+        //enterOtpCode();
+    }
+    public void enterOtpCode() {
+        String otpCode=ReusableMethods.getDateTime("mmHHdd");
+        List<WebElement> otpInputs = driver.findElements(By.cssSelector("input.ant-input.otp-input"));
+        DriverClient.waitForClickability(otpInputs.get(0));
+
+        for (int i = 0; i < otpCode.length(); i++) {
+            otpInputs.get(i).sendKeys(String.valueOf(otpCode.charAt(i)));
+        }
     }
 
 }

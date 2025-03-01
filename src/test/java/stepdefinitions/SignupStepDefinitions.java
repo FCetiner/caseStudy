@@ -36,4 +36,5 @@ public class SignupStepDefinitions {
         Assert.assertTrue(" Signup page is not accessible",pageTitle.equalsIgnoreCase("Sign Up"));
     }
 
+
 }

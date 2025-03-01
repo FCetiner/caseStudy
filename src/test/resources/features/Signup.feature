@@ -6,5 +6,4 @@ Feature: Signup feature
     When user clicks on signUp button
     Then user verifies that they are on the Sign up page
     When user enters valid details and submits the form
-  #  Then the user submits otp code
 
