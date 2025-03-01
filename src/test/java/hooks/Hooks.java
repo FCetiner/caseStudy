@@ -1,9 +1,9 @@
 package hooks;
-
-
 import base.BaseTest;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import com.aventstack.extentreports.service.ExtentService;
 import io.cucumber.java.*;
+import org.junit.AfterClass;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import utils.apiClient.ApiClient;
@@ -73,7 +73,7 @@ public class Hooks {
      *
      * @param scenario the Cucumber scenario
      */
-    @AfterStep
+  //  @AfterStep
     public void afterStep(Scenario scenario)  {
         if (scenario.isFailed() || !scenario.isFailed()) {
             byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
@@ -82,17 +82,15 @@ public class Hooks {
         }
     }
 
-  //  @After
+    @After
     public void tearDown(Scenario scenario) throws IOException {
-//        DatabaseClient.closeConnection();
-/*
-        if (scenario.isFailed()) {
-            System.out.println(scenario.getName() + " senaryosu hata aldı");
-            getScreenshot(scenario.getName() + " senaryosu hata aldı");
-            final byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "screenshots");
-            BaseTest.quitDriver();
-        } else if (scenario.isFailed() == false) {
+       if (scenario.isFailed()) {
+            byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
+            String stepName = scenario.getName();
+            scenario.attach(screenshot, "image/png", stepName);
+        }
+       /*
+        else if (!scenario.isFailed()) {
             try {
                 // Ekran görüntüsünü al ve kaydet
                 String screenshotPath = getScreenshot(scenario.getName());
@@ -102,21 +100,19 @@ public class Hooks {
                 ExtentCucumberAdapter.addTestStepScreenCaptureFromPath(relativePath);
 
                 // Cucumber raporuna ekle
-                scenario.attach(Files.readAllBytes(Paths.get(screenshotPath)), "image/png", "Ekran Görüntüsü");
+                scenario.attach(Files.readAllBytes(Paths.get(screenshotPath)), "image/png", "ScreenShot");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
- */
+        */
         BaseTest.quitDriver();
     }
 
 
-
     //@AfterStep
-    public void addScrennshot(Scenario scenario) throws IOException {
+    public void addScreenshot(Scenario scenario) throws IOException {
             getScreenshot("after step screenshot");
             final byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "screenshots");

@@ -10,7 +10,7 @@ import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
 @CucumberOptions(
         plugin = {
                 "pretty", "summary",
-                "html:target/default-cucumber-reports.html",
+                "html:test-output/HtmlReports/default-cucumber-reports.html",
                 "json:target/json-reports/cucumber.json",
                 "junit:target/xml-report/cucumber.xml",
                 "rerun:target/failedRerun.txt",
@@ -20,7 +20,7 @@ import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
         features = "src/test/resources/features",
         monochrome = false,
         glue = {"stepdefinitions", "hooks"},
-        tags = "@test",
+        tags = "@smoke",
         dryRun =false)
 public class Runner {
 }
