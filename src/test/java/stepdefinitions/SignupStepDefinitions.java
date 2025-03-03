@@ -16,8 +16,8 @@ import utils.util.ConfigReader;
 public class SignupStepDefinitions {
     private final SignupPage signupPage;
 
-    public SignupStepDefinitions()  {
-        this.signupPage = BaseTest.getSignupPage();
+    public SignupStepDefinitions() {
+        this.signupPage = new SignupPage();
     }
 
     @Step("User navigates to the signup page")

@@ -1,5 +1,6 @@
 package pages;
 
+import base.BasePage;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
@@ -10,14 +11,7 @@ import java.util.List;
 import static base.BasePage.*;
 
 
-public class SignupPage {
-    WebDriver driver;
-
-    public SignupPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-        validateSignUpPage();
-    }
+public class SignupPage extends BasePage {
 
     private final By signUpHeader = By.xpath("//h1[.=\"Sign Up\"]");
     private final By firstNameTextBox = By.id("firstName");
@@ -59,7 +53,7 @@ public class SignupPage {
             Assert.assertTrue("privacyLink not found!!", isElementVisible(privacyLink));
         } catch (NoSuchElementException e) {
             System.err.println("An expected element was not found on the page! Error message: " + e.getMessage());
-            e.printStackTrace(); // error details.
+            throw e; // Hatayı yukarı fırlatalım
         }
     }
 
@@ -67,41 +61,36 @@ public class SignupPage {
         enterText(firstNameTextBox, "fistname");
         enterText(lastNameTextBox, "lastNameTextBox");
         clickElement(countryDropdown);
-        WebElement searchInput = driver.findElement(By.xpath("//nz-select-search//input"));
+        
+        WebElement searchInput = getDriver().findElement(By.xpath("//nz-select-search//input"));
         searchInput.sendKeys(Keys.ENTER);
+        
         enterText(phoneNumberTextBox, "5996006060");
         enterText(companyTextBox, "companyTextBox");
         enterText(emailTextBox, "test@test.com");
+        
         clickElement(titleDropdown);
-        searchInput = driver.findElement(By.xpath("(//nz-select-search//input)[2]"));
+        searchInput = getDriver().findElement(By.xpath("(//nz-select-search//input)[2]"));
         searchInput.sendKeys("Turkey");
         searchInput.sendKeys(Keys.ENTER);
 
         enterText(passwordTextBox, "Test12++");
         enterText(passwordConfirmBox, "Test12++");
         clickElement(termsAndConditionsCheckbox);
-        WebElement acceptButtonWebElement = driver.findElement(By.xpath("//button[.=' Accept ']"));
-        System.out.println("acceptButtonWebElement = " + acceptButtonWebElement.getText());
-        JSUtils.scrollIntoView(acceptButtonWebElement);
-        DriverClient.wait(1);
-        DriverClient.waitForVisibility(acceptButtonWebElement);
-        DriverClient.waitForClickability(acceptButtonWebElement);
-        JSUtils.clickElementByJS(acceptButtonWebElement);
-        DriverClient.waitAndClick(acceptButtonWebElement);
-
-     //   WebElement agreeAndSignUpButtonWebElement = driver.findElement(By.xpath("//button[.=' Agree & Sign-Up ']"));
-     //   DriverClient.waitForClickability(agreeAndSignUpButtonWebElement);
-     //   JSUtils.clickElementByJS(agreeAndSignUpButtonWebElement);
-        //enterOtpCode();
+        
+        WebElement acceptButtonWebElement = getDriver().findElement(By.xpath("//button[.=' Accept ']"));
+        waitForVisibility(acceptButtonWebElement);
+        waitForClickability(acceptButtonWebElement);
+        clickWithJS(acceptButtonWebElement);
     }
+
     public void enterOtpCode() {
-        String otpCode=ReusableMethods.getDateTime("mmHHdd");
-        List<WebElement> otpInputs = driver.findElements(By.cssSelector("input.ant-input.otp-input"));
-        DriverClient.waitForClickability(otpInputs.get(0));
+        String otpCode = ReusableMethods.getDateTime("mmHHdd");
+        List<WebElement> otpInputs = getDriver().findElements(By.cssSelector("input.ant-input.otp-input"));
+        waitForClickability(otpInputs.get(0));
 
         for (int i = 0; i < otpCode.length(); i++) {
             otpInputs.get(i).sendKeys(String.valueOf(otpCode.charAt(i)));
         }
     }
-
 }

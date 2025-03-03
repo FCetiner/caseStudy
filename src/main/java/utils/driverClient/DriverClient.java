@@ -159,10 +159,4 @@ public class DriverClient extends PropertyManager {
         e.sendKeys(txt);
     }
 
-
-    public String getAttribute(WebElement e, String attribute) {
-        waitForVisibility(e);
-        return e.getAttribute(attribute);
-    }
-
 }

@@ -20,7 +20,7 @@ import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
         features = "src/test/resources/features",
         monochrome = false,
         glue = {"stepdefinitions", "hooks"},
-        tags = "@test",
+        tags = "@smoke",
         dryRun = false)
 public class Runner {
 }

@@ -7,12 +7,6 @@ import static base.BasePage.clickElement;
 
 public class DashboardPage {
 
-    WebDriver driver;
-
-    public DashboardPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
     private final By avatarIkon = By.xpath("//nz-avatar[@class='ant-avatar ant-avatar-circle ant-avatar-icon']");
     private final By signOut = By.xpath("//span[contains(text(),'Sign Out')]");
 

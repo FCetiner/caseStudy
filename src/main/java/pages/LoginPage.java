@@ -12,13 +12,6 @@ import utils.util.ConfigReader;
 
 
 public class LoginPage extends BasePage {
-    WebDriver driver;
-
-    public LoginPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-        validateLoginPage();
-    }
 
     private final By signInHeader = By.xpath("//h2[.=\"Sign In\"]");
     private final By emailTextBox = By.xpath("//input[@type='email' and @formcontrolname='email']");

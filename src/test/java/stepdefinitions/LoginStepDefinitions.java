@@ -9,6 +9,7 @@ import io.qameta.allure.*;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import pages.LoginPage;
+import pages.SignupPage;
 import utils.driverClient.DriverClient;
 import utils.util.Configs;
 
@@ -17,9 +18,10 @@ import utils.util.Configs;
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
 
-    public LoginStepDefinitions()  {
-        this.loginPage = BaseTest.getLoginPage();
+    public LoginStepDefinitions() {
+        this.loginPage = new LoginPage();
     }
+
 
     @Step("User navigates to login page")
     @Severity(SeverityLevel.CRITICAL)

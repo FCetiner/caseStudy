@@ -4,6 +4,8 @@ import base.BaseTest;
 import io.cucumber.java.en.And;
 import io.qameta.allure.*;
 import pages.DashboardPage;
+import pages.LoginPage;
+
 @Epic("Dashboard")
 @Feature("Dashboard")
 public class DashboardStepDefinitions {
@@ -11,7 +13,7 @@ public class DashboardStepDefinitions {
 
 
     public DashboardStepDefinitions()  {
-        this.dashboardPage = BaseTest.getDashboardPage();
+        this.dashboardPage = new DashboardPage();
     }
 
     @Step("User logs out")
