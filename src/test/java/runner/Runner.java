@@ -14,13 +14,13 @@ import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
                 "json:target/json-reports/cucumber.json",
                 "junit:target/xml-report/cucumber.xml",
                 "rerun:target/failedRerun.txt",
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         snippets = CAMELCASE,
         features = "src/test/resources/features",
         monochrome = false,
         glue = {"stepdefinitions", "hooks"},
-        tags = "@smoke",
-        dryRun =false)
+        tags = "@test",
+        dryRun = false)
 public class Runner {
 }

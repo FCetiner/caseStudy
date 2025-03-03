@@ -26,7 +26,7 @@ public class LoginPage extends BasePage {
     private final By signInButton = By.xpath("//*[.=\" Sign In \"]");
     private final By signUpButton = By.xpath("//*[.=\" Sign-up \"]");
     private final By continueWithGoogleButton = By.xpath("//*[contains(text(),'Continue with Google')]");
-    private final By forcegetLink = By.xpath("//*[.=\" © 2024 Forceget \"]");
+    private final By forcegetLink = By.xpath("//*[.=\" © 2025 Forceget \"]");
     private final By legalLink = By.xpath("//*[contains(text(),'Legal')]");
     private final By privacyLink = By.xpath("//*[contains(text(),'Privacy')]");
 

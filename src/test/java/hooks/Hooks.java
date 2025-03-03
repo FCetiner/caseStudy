@@ -3,6 +3,7 @@ import base.BaseTest;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.aventstack.extentreports.service.ExtentService;
 import io.cucumber.java.*;
+import io.qameta.allure.Allure;
 import org.junit.AfterClass;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -66,6 +67,7 @@ public class Hooks {
     public void setUp()  {
         DriverClient.getDriver();
         screenshots.clear();
+        Allure.addAttachment("Before Scenario", "Starting test...");
     }
 
     /**
@@ -107,6 +109,7 @@ public class Hooks {
             }
         }
         */
+        Allure.addAttachment("After Scenario", "Test completed.");
         BaseTest.quitDriver();
     }
 

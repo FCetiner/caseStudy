@@ -2,6 +2,7 @@ package pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import utils.driverClient.DriverClient;
 import utils.util.JSUtils;
 import utils.util.ReusableMethods;
@@ -14,6 +15,7 @@ public class SignupPage {
 
     public SignupPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
         validateSignUpPage();
     }
 
@@ -34,7 +36,7 @@ public class SignupPage {
     private final By acceptButton = By.xpath("//button[.=' Accept ']");
     private final By agreeAndSignUpButton = By.xpath("//button[.=' Agree & Sign-Up ']");
     private final By signInButton = By.xpath("//*[.=\"Sign In\"]");
-    private final By forcegetLink = By.xpath("//*[.=\" © 2024 Forceget \"]");
+    private final By forcegetLink = By.xpath("//*[.=\" © 2025 Forceget \"]");
     private final By legalLink = By.xpath("//*[contains(text(),'Legal')]");
     private final By privacyLink = By.xpath("//*[contains(text(),'Privacy')]");
 

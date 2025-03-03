@@ -36,6 +36,7 @@ Feature: Login feature
       | email               | password | errorMessage                     |
       | fcetinerr@gmail.com |          | Please fill the required fields! |
 
+    @login
   Scenario: TC05 Successful User Login
     Given user is on the login page
     When user successfully logins
