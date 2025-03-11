@@ -31,7 +31,7 @@ Projeyi kullanmaya başlamak için aşağıdaki adımları takip edebilirsiniz:
 Testleri çalıştırmak için `Runner` sınıfını kullanabilirsiniz:
 
 #### IntelliJ IDEA'dan Çalıştırma
-- `src/test/java/runner/Runner.java` dosyasını sağ tıklayıp **Run** seçeneğini seçin.
+- `src/test/java/runners/Runner.java` dosyasını sağ tıklayıp **Run** seçeneğini seçin.
 
 #### Komut Satırından Çalıştırma
 ```sh
@@ -54,7 +54,7 @@ caseStudy/
 │   ├── test/
 │   │   ├── java/
 │   │   │   ├── hooks/
-│   │   │   ├── runner/
+│   │   │   ├── runners/
 │   │   │   ├── stepdefinitions/
 │   │   ├── resources/
 │   │   │   ├── features/
@@ -66,7 +66,7 @@ caseStudy/
 
 - **`pages/`**: Sayfa nesneleri (Page Object Model)
 - **`stepdefinitions/`**: Test adımları
-- **`runner/`**: Cucumber Runner sınıfı
+- **`runners/`**: Cucumber Runner sınıfı
 - **`features/`**: Test senaryoları (Gherkin syntax)
 - **`resources/`**: Test yapılandırma dosyaları
 

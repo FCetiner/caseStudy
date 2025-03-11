@@ -2,7 +2,7 @@ package base;
 
 import org.openqa.selenium.WebDriver;
 import pages.*;
-import utils.driverClient.DriverClient;
+import utils.driver.DriverClient;
 
 public class BaseTest {
 

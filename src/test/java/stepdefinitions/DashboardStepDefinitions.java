@@ -6,8 +6,7 @@ import io.qameta.allure.*;
 import pages.DashboardPage;
 import pages.LoginPage;
 
-@Epic("Dashboard")
-@Feature("Dashboard")
+
 public class DashboardStepDefinitions {
     private final DashboardPage dashboardPage;
 

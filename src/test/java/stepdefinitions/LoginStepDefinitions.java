@@ -1,34 +1,29 @@
 package stepdefinitions;
 
-import base.BaseTest;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import io.qameta.allure.*;
 import org.junit.Assert;
-import org.openqa.selenium.By;
+import org.openqa.selenium.*;
 import pages.LoginPage;
-import pages.SignupPage;
-import utils.driverClient.DriverClient;
-import utils.util.Configs;
+import utils.config.Endpoints;
+import utils.config.PropertyManager;
+import utils.driver.DriverClient;
 
-@Epic("User Authentication")
-@Feature("Login Functionality")
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
+    private final WebDriver driver;
 
     public LoginStepDefinitions() {
         this.loginPage = new LoginPage();
+        this.driver = DriverClient.getDriver();
     }
-
 
     @Step("User navigates to login page")
     @Severity(SeverityLevel.CRITICAL)
     @Description("User goes to the login page and validates the UI elements.")
     @Given("user is on the login page")
     public void userIsOnTheLoginPage() {
-        DriverClient.getDriver().get(Configs.getAllConfigs().get("ENVIRONMENT_DOMAIN"));
+     //   driver.get(Endpoints.getBaseUrl()+ Endpoints.getLoginUrl());
         loginPage.validateLoginPage();
     }
 
@@ -45,7 +40,7 @@ public class LoginStepDefinitions {
     @Description("User enters credentials and successfully logs into the system.")
     @When("user successfully logins")
     public void userSuccessfullyLogins() {
-        loginPage.login(Configs.getAllConfigs().get("ENVIRONMENT_EMAIL"), Configs.getAllConfigs().get("ENVIRONMENT_PASSWORD"));
+        loginPage.login(PropertyManager.getInstance().getProperty("email"), PropertyManager.getInstance().getProperty("password"));
     }
 
     @Step("User enters email: {email} and password: {password}")
@@ -61,19 +56,21 @@ public class LoginStepDefinitions {
     @Description("Validate that the correct error message is displayed when login fails.")
     @Then("The error message {string} should be displayed")
     public void theErrorMessageShouldBeDisplayed(String errorMessage) {
-        DriverClient.waitForVisibility(DriverClient.getDriver().findElement(By.xpath("//div[contains(text(), '"+errorMessage+"')]")));
+        DriverClient.waitForElement(DriverClient.getDriver().findElement(By.xpath("//div[contains(text(), '"+errorMessage+"')]")));
         String actualErrorMessage= DriverClient.getDriver().findElement(By.xpath("//div[contains(text(), '"+errorMessage+"')]")).getText();
-        System.out.println("Actual Error Message = "+actualErrorMessage);
-        Assert.assertTrue(errorMessage+" is not accessible", actualErrorMessage.equalsIgnoreCase(errorMessage));
+        System.out.println("actualErrorMessage = "+actualErrorMessage);
+        Assert.assertTrue(errorMessage+"  is not accessible",actualErrorMessage.equalsIgnoreCase(errorMessage));
     }
 
-    @Step("Verify user is on Dashboard page")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Ensure that after successful login, the user is redirected to the Dashboard page.")
-    @Then("user verifies that they are on the Dashboard page")
-    public void userVerifiesThatTheyAreOnThePage() {
-        String pageTitle = DriverClient.getDriver().findElement(By.xpath("//*[contains(text(),'Dashboard')]")).getText();
-        System.out.println("Page Title = " + pageTitle);
-        Assert.assertTrue("Dashboard page is not accessible", pageTitle.equalsIgnoreCase("Dashboard"));
+
+    @Then("user verifies that they are on the {string} page")
+    public void userVerifiesThatTheyAreOnThePage(String page) {
+        DriverClient.wait(8);
+        WebElement pageTitleWebElement=DriverClient.getDriver().findElement(By.xpath("//*[contains(text(),page)]"));
+        DriverClient.waitForElement(pageTitleWebElement);
+        String pageTitle=pageTitleWebElement.getText();
+        System.out.println("Sayfa Başlığı = "+pageTitle);
+        Assert.assertTrue("Dashboard page is not accessible",pageTitle.contains(page));
+
     }
 }

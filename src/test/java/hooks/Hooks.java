@@ -1,35 +1,27 @@
 package hooks;
+
 import base.BaseTest;
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
-import com.aventstack.extentreports.service.ExtentService;
 import io.cucumber.java.*;
 import io.qameta.allure.Allure;
-import org.junit.AfterClass;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import utils.apiClient.ApiClient;
-import utils.databaseClient.DatabaseClient;
-import utils.propertyManager.PropertyManager;
-import utils.util.Configs;
-import utils.driverClient.DriverClient;
+import utils.api.ApiClient;
+import utils.db.DatabaseClient;
+import utils.driver.DriverClient;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static utils.util.ReusableMethods.getScreenshot;
+import static utils.helper.ReusableMethods.getScreenshot;
 
 public class Hooks {
     private static DatabaseClient databaseClient;
     private static ApiClient apiClient;
-    private static String environment;
     private static List<String> screenshots = new ArrayList<>();
-    private static Map<String, String> configDetails = new HashMap<>();
 
     /**
      * Initializes global clients before all tests run.
@@ -39,7 +31,6 @@ public class Hooks {
         try {
             apiClient = new ApiClient();
             databaseClient = new DatabaseClient();
-            configDetails = Configs.getValidConfig(PropertyManager.getInstance().environmentVariable());
             System.out.println("Global clients initialized: Driver, ApiClient, and DatabaseClient.");
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize global clients: " + e.getMessage(), e);
@@ -47,82 +38,55 @@ public class Hooks {
     }
 
     /**
-     * Captures screenshots after each step and attaches them to the report.
-     *
-     * @param scenario the Cucumber scenario
-     */
-    @BeforeStep
-    public void beforeStep(Scenario scenario)   {
-        if (scenario.isFailed() || !scenario.isFailed()) {
-            byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
-            String stepName = scenario.getName();
-            scenario.attach(screenshot, "image/png", stepName);
-        }
-    }
-
-    /**
      * Sets up the test environment before each scenario.
      */
     @Before
-    public void setUp()  {
+    public void setUp() {
         DriverClient.getDriver();
         screenshots.clear();
         Allure.addAttachment("Before Scenario", "Starting test...");
     }
 
     /**
-     * Captures screenshots after each step and attaches them to the report.
-     *
-     * @param scenario the Cucumber scenario
+     * Captures a screenshot and attaches it to the report.
      */
-  //  @AfterStep
-    public void afterStep(Scenario scenario)  {
-        if (scenario.isFailed() || !scenario.isFailed()) {
+    private void captureScreenshot(Scenario scenario, String stepName) {
+        try {
             byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
-            String stepName = scenario.getName();
             scenario.attach(screenshot, "image/png", stepName);
+        } catch (Exception e) {
+            System.err.println("Screenshot capture failed: " + e.getMessage());
         }
     }
 
-   // @After
-    public void tearDown(Scenario scenario) throws IOException {
-       if (scenario.isFailed()) {
-            byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
-            String stepName = scenario.getName();
-            scenario.attach(screenshot, "image/png", stepName);
+    /**
+     * Takes a screenshot after each failed step.
+     */
+    @AfterStep
+    public void afterStep(Scenario scenario) {
+        if (scenario.isFailed()) {
+            captureScreenshot(scenario, "Failed Step");
         }
-       /*
-        else if (!scenario.isFailed()) {
+    }
+
+    /**
+     * Takes a screenshot at the end of a failed scenario and quits the driver.
+     */
+    @After
+    public void tearDown(Scenario scenario) {
+        if (scenario.isFailed()) {
+            captureScreenshot(scenario, "Failed Scenario");
+        } else {
             try {
-                // Ekran görüntüsünü al ve kaydet
+                // Başarılı senaryolar için ekran görüntüsünü sakla
                 String screenshotPath = getScreenshot(scenario.getName());
-
-                // HTML ve PDF raporlarına ekran görüntüsünü bağla
                 String relativePath = "../Screenshots/" + new File(screenshotPath).getName();
-                ExtentCucumberAdapter.addTestStepScreenCaptureFromPath(relativePath);
-
-                // Cucumber raporuna ekle
-                scenario.attach(Files.readAllBytes(Paths.get(screenshotPath)), "image/png", "ScreenShot");
-
+                scenario.attach(Files.readAllBytes(Paths.get(screenshotPath)), "image/png", "Screenshot");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        */
         Allure.addAttachment("After Scenario", "Test completed.");
         BaseTest.quitDriver();
     }
-
-
-    //@AfterStep
-    public void addScreenshot(Scenario scenario) throws IOException {
-            getScreenshot("after step screenshot");
-            final byte[] screenshot = ((TakesScreenshot) DriverClient.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "screenshots");
-    }
-
-
-
 }
-
-

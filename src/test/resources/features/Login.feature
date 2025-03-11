@@ -1,4 +1,4 @@
-@regression @smoke @signup
+@regression @smoke @loginClass
 Feature: Login feature
 
   @negative
@@ -40,5 +40,5 @@ Feature: Login feature
   Scenario: TC05 Successful User Login
     Given user is on the login page
     When user successfully logins
-    Then user verifies that they are on the Dashboard page
+    Then user verifies that they are on the "Dashboard" page
     And user logs out

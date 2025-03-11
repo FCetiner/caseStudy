@@ -3,12 +3,10 @@ package pages;
 import base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.junit.Assert;
-import utils.driverClient.DriverClient;
-import utils.util.ConfigReader;
+import utils.config.Endpoints;
+import utils.config.PropertyManager;
+import utils.driver.DriverClient;
 
 
 public class LoginPage extends BasePage {
@@ -41,7 +39,7 @@ public class LoginPage extends BasePage {
     }
 
     public void getLoginPage() {
-        DriverClient.getDriver().get(ConfigReader.getProperty("loginPageUrl"));
+        DriverClient.getDriver().get(PropertyManager.getInstance().getProperty("browser")+ Endpoints.getLoginUrl());
     }
 
 
