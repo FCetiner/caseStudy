@@ -1,73 +1,115 @@
-# Case Study
+# UI Test Automation Project
 
-Bu proje, **Java, Selenium ve Cucumber BDD** kullanılarak geliştirilmiş bir test otomasyon framework'üdür. **Runner sınıfı** çalıştırıldığında test senaryoları çalıştırılır ve **Extent Reports** ile detaylı test raporları üretilir.
+##  Overview
 
-## 📌 Teknolojiler
-- Java
-- Selenium WebDriver
-- Cucumber BDD
-- JUnit
-- Maven
-- Extent Reports
+This project is a **UI Test Automation Framework** built using:
 
----
+- **Java**
+- **Selenium WebDriver**
+- **Cucumber (BDD)**
+- **JUnit**
+- **Allure Reporting**
 
-## 🚀 Kurulum
-
-Projeyi kullanmaya başlamak için aşağıdaki adımları takip edebilirsiniz:
-
-### 1️⃣ Depoyu Klonlayın
-```sh
-  git clone <repo-link>
-  cd caseStudy
-```
-
-### 2️⃣ Maven Bağımlılıklarını Yükleyin
-```sh
-  mvn clean install
-```
-
-### 3️⃣ Testleri Çalıştırın
-Testleri çalıştırmak için `Runner` sınıfını kullanabilirsiniz:
-
-#### IntelliJ IDEA'dan Çalıştırma
-- `src/test/java/runners/Runner.java` dosyasını sağ tıklayıp **Run** seçeneğini seçin.
-
-#### Komut Satırından Çalıştırma
-```sh
-  mvn test
-```
+The project is designed to automate UI tests for the web application, following the **Page Object Model (POM)** for better maintainability and scalability.
 
 ---
 
-## 📝 Yapı
-Proje temel olarak şu klasör yapısına sahiptir:
+##  Project Structure
+
 ```
-caseStudy/
+project-root/
 │── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   ├── base/
-│   │   │   ├── pages/
-│   │   │   ├── utils/
-│   │   │   ├── resources/
+│   │   │   ├── base/               # Base classes for framework support
+│   │   │   ├── pages/              # Page Object classes (e.g., LoginPage)
+│   │   │   ├── utils/              # Utility classes (config, driver, etc.)
 │   ├── test/
 │   │   ├── java/
-│   │   │   ├── hooks/
-│   │   │   ├── runners/
-│   │   │   ├── stepdefinitions/
-│   │   ├── resources/
-│   │   │   ├── features/
-│   │   │   ├── cucumber.properties
-│   │   │   ├── extent.properties
-│   │   │   ├── extent-config.xml
-│── pom.xml
+│   │   │   ├── stepdefinitions/    # Step definitions for Cucumber
+│   │   │   ├── runners/            # Cucumber test runner
+│   │   │   ├── hooks/              # Hooks (before/after scenarios)
+│   ├── resources/
+│   │   ├── features/               # Cucumber feature files
+│   │   ├── config.properties       # Configuration file
+│── pom.xml                          # Maven dependencies
+│── README.md                        # Project documentation
 ```
 
-- **`pages/`**: Sayfa nesneleri (Page Object Model)
-- **`stepdefinitions/`**: Test adımları
-- **`runners/`**: Cucumber Runner sınıfı
-- **`features/`**: Test senaryoları (Gherkin syntax)
-- **`resources/`**: Test yapılandırma dosyaları
+---
+
+## 🚀 How to Run the Tests
+
+### **1️⃣ Setup & Installation**
+
+1. Install **Java 11+**
+2. Install **Maven**
+3. Clone the repository:
+   ```sh
+   git clone <repo-url>
+   cd project-root
+   ```
+4. Install dependencies:
+   ```sh
+   mvn clean install
+   ```
+
+### **2️⃣ Run Tests**
+
+- Run all tests:
+  ```sh
+  mvn test
+  ```
+- Run specific tag (e.g., `@smoke`):
+  ```sh
+  mvn test -Dcucumber.filter.tags="@smoke"
+  ```
+- Run failed tests:
+  ```sh
+  mvn test -Dcucumber.filter.tags="@rerun"
+  ```
+
+### **3️⃣ View Reports**
+
+- **Cucumber HTML Report:** Open `test-output/HtmlReports/default-cucumber-reports.html`
+- **Allure Report:**
+  ```sh
+  mvn allure:serve
+  ```
 
 ---
+
+## 🛠 Configuration
+
+Modify `configuration.properties` to set environment variables:
+
+```
+browser=chrome
+baseUrl=https://example.com
+```
+
+---
+
+## 📜 Test Design
+
+### **1️⃣ Page Object Model (POM)**
+
+Each **Page Class** contains: ✅ Locators (`By` objects) ✅ Page-specific methods (e.g., `login()`, `validateLoginPage()`)
+
+### **2️⃣ Step Definitions**
+
+Each **Step Definition Class**: ✅ Calls methods from **Page Objects** ✅ Maps Gherkin steps to Java methods
+
+Example:
+
+```java
+@When("User enters email {string} and password {string}")
+public void user_enters_email_and_password(String email, String password) {
+    loginPage.login(email, password);
+}
+```
+
+## License
+
+This project is licensed under the MIT License.
+
